@@ -2,58 +2,57 @@
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetTitle,
   SheetContent,
   SheetFooter,
   SheetHeader,
   SheetTrigger,
+  SheetTitle,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/molecules/theme-toggle";
 import { EllipsisVertical, MoreVertical, Sun } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import MobileUserSigninOrAvatar from "./mobile-user-signinoravatar";
-
+import MobileUserSignOrAvatar from "@/components/molecules/mobile-user-signinoravatar";
+ 
 interface MenuClientProps {
   desktopAvatar: React.ReactNode;
 }
-
+ 
 export default function MenuClient({ desktopAvatar }: MenuClientProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+ 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+ 
   const handleSheetCloseAutoFocus = (event: Event) => {
     event.preventDefault();
   };
-
+ 
   return (
     <div>
-      {/* ====================================================== */}
-      {/* Desktop & Tablet Nav (No Changes)                      */}
-      {/* ====================================================== */}
+      {/* Desktop & Tablet Nav */}
       <nav className="hidden items-center gap-3 md:flex">
         <ThemeToggle />
-
+ 
         <Link
           href="/"
           className="body-regular text-text-body hover:text-primary"
         >
           Home
         </Link>
-
+ 
         {/* Book Appointment Button */}
         <Button asChild variant="brand" size="lg">
-          <Link href="/" className="text-text-caption-2">
+          <Link href="/#our-doctors" className="text-text-caption-2">
             Book Appointment
           </Link>
         </Button>
-
+ 
         {/* Sign In Button */}
         {desktopAvatar}
       </nav>
-
-      {/* ====================================================== */}
-      {/* Mobile Nav (Implementation using Shadcn Sheet)         */}
-      {/* ====================================================== */}
+      {/* Mobile Nav*/}
       <nav className="md:hidden">
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger
@@ -63,34 +62,36 @@ export default function MenuClient({ desktopAvatar }: MenuClientProps) {
             <EllipsisVertical />
           </SheetTrigger>
           <SheetContent
-            className="flex flex-col items-start p-4 bg-background-2"
             side="right"
+            className="flex flex-col items-start p-4 bg-background-2"
             onCloseAutoFocus={handleSheetCloseAutoFocus}
           >
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
+            <SheetHeader className="w-full justify-start flex flex-row items-center border-b">
+              <SheetTitle className="text-2xl font-bold">Menu</SheetTitle>
             </SheetHeader>
             <ThemeToggle />
             <Link
               href="/"
-              className="body-regular text-text-body hover:text-primary"
-              onClick={closeMobileMenu} // Close menu on link click
+              className="body-regular text-text-body hover:text-primary py-3"
+              onClick={closeMobileMenu}
             >
               Home
             </Link>
-
-            <Button asChild variant="brand" size="sm" className="w-full">
+ 
+            <Button asChild variant="brand" size="sm" className="w-full my-2">
               <Link
-                href="/"
-                className="text-text-caption-2"
+                href="/#our-doctors"
                 onClick={closeMobileMenu}
+                className="text-text-caption-2"
               >
                 Book Appointment
               </Link>
             </Button>
-
+ 
             <SheetFooter className="w-full">
-              {<MobileUserSigninOrAvatar onMobileActionComplete={closeMobileMenu} />}
+              <MobileUserSignOrAvatar
+                onMobileActionComplete={closeMobileMenu}
+              />
             </SheetFooter>
           </SheetContent>
         </Sheet>
@@ -98,3 +99,4 @@ export default function MenuClient({ desktopAvatar }: MenuClientProps) {
     </div>
   );
 }
+
