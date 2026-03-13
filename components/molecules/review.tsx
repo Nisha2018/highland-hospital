@@ -34,7 +34,6 @@ import {
   };
    
   export default function Review({
-    id,
     name,
     date,
     rating,
